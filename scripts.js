@@ -63,7 +63,6 @@ let inputNameElement = ()=> {
                 <input type="input" placeholder={input} onChange={(e)=> {
                     input = e.target.value.trim()
                 }} onBlur = {()=> {
-                    displayNameElement()
                     displayAgeElement()
                     displayGenderElement()
                     displayWeightElement()
@@ -124,7 +123,6 @@ let inputAgeElement = ()=> {
                     age = e.target.value.trim()
                 }}onBlur = {()=> {
                     displayNameElement()
-                    displayAgeElement()
                     displayGenderElement()
                     displayWeightElement()
                 }}/><button onClick={(e)=> {
@@ -181,7 +179,6 @@ let inputGenderElement = ()=> {
             }}onBlur = {()=> {
                 displayNameElement()
                 displayAgeElement()
-                displayGenderElement()
                 displayWeightElement()
             }}>
                 <option selected>Select a gender</option>
@@ -224,7 +221,6 @@ let inputWeightElement = ()=> {
                     displayNameElement()
                     displayAgeElement()
                     displayGenderElement()
-                    displayWeightElement()
                 }}/><button onClick={(e)=> {
                     e.preventDefault()
                     if (weight.length > 0 && !isNaN(weight) && weight > 70 && weight < 400) {

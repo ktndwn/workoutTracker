@@ -30,12 +30,12 @@ button {
 }
 
 
-header {
+#header {
     text-align: left;
-    padding: 20px;
+    padding: 20px 0px 20px 20px;
     margin: 0px 0px 20px 0;
     font-size: 30px;
-    width: 100%;
+    width: auto;
     color: silver;
     background-color: indigo;
     transition: all .5s ease-in-out;
@@ -46,9 +46,12 @@ header {
     text-align: center;
 }
 
-span {
+.person {
+    cursor: pointer;
     color: deepskyblue;
 }
+
+
 
 #person-info select {
     background-color: #222;
@@ -110,11 +113,18 @@ span {
     background-color: #444;
 }
 
+
+
+
+
+
+
+
 @media (max-width: 500px) {
     * {
         font-size: 16px;
     }
-    header {
+    #header {
         text-align: center;
         padding: 20px 0px 20px 0px;
         transition: all .5s ease-in-out;

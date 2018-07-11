@@ -43,7 +43,7 @@ let workouts = []
 
 let displayNameElement = ()=> {
     nameElement = (
-        <span onClick={()=> {inputNameElement()}}>{person.name}</span>
+        <span class = "person" onClick={()=> {inputNameElement()}}>{person.name}</span>
     )
     addList()
     renderApp()
@@ -54,11 +54,19 @@ let displayNameElement = ()=> {
 
 let inputNameElement = ()=> {
     let input = person.name
+    displayAgeElement()
+    displayGenderElement()
+    displayWeightElement()
     nameElement = (
         <span>
             <form>    
                 <input type="input" placeholder={input} onChange={(e)=> {
                     input = e.target.value.trim()
+                }} onBlur = {()=> {
+                    displayNameElement()
+                    displayAgeElement()
+                    displayGenderElement()
+                    displayWeightElement()
                 }}/><button onClick={(e)=>{
                     e.preventDefault()
                     if (input.length > 0 && input.length < 30) {
@@ -94,7 +102,7 @@ let inputNameElement = ()=> {
 
 let displayAgeElement = ()=> {
     ageElement = (
-        <span onClick={()=> {inputAgeElement()}}>{person.age}</span>
+        <span class ="person" onClick={()=> {inputAgeElement()}}>{person.age}</span>
     )
     addList()
     renderApp()  
@@ -106,11 +114,19 @@ let displayAgeElement = ()=> {
 
 let inputAgeElement = ()=> {
     let age = person.age
+    displayNameElement()
+    displayGenderElement()
+    displayWeightElement()
     ageElement = (
         <span>
             <form>
                 <input type="input" placeholder={age} onChange={(e)=> {
                     age = e.target.value.trim()
+                }}onBlur = {()=> {
+                    displayNameElement()
+                    displayAgeElement()
+                    displayGenderElement()
+                    displayWeightElement()
                 }}/><button onClick={(e)=> {
                     e.preventDefault()
                     if (age.length > 0 && !isNaN(age) && age > 12 && age < 110) {
@@ -141,7 +157,7 @@ let inputAgeElement = ()=> {
 
 let displayGenderElement = ()=> {
     genderElement = (
-        <span onClick={()=>{inputGenderElement()}}>{person.gender}</span>
+        <span class="person" onClick={()=>{inputGenderElement()}}>{person.gender}</span>
     )
     addList()
     renderApp()
@@ -149,6 +165,9 @@ let displayGenderElement = ()=> {
 
 
 let inputGenderElement = ()=> {
+    displayNameElement()
+    displayAgeElement()
+    displayWeightElement()
     genderElement = (
         <span>
             <select onChange={(e)=> {
@@ -159,6 +178,11 @@ let inputGenderElement = ()=> {
                     person.gender = 'female'
                     displayGenderElement()
                 }
+            }}onBlur = {()=> {
+                displayNameElement()
+                displayAgeElement()
+                displayGenderElement()
+                displayWeightElement()
             }}>
                 <option selected>Select a gender</option>
                 <option value="male">Male</option>
@@ -180,7 +204,7 @@ let inputGenderElement = ()=> {
 
 let displayWeightElement = ()=> {
     weightElement = (
-        <span onClick={()=>{inputWeightElement()}}>{person.weight}</span>  
+        <span class="person" onClick={()=>{inputWeightElement()}}>{person.weight}</span>  
     )
     addList()
     renderApp()
@@ -188,11 +212,19 @@ let displayWeightElement = ()=> {
 
 let inputWeightElement = ()=> {
     let weight = person.weight
+    displayNameElement()
+    displayAgeElement()
+    displayGenderElement()
     weightElement = (
         <span>
             <form>
                 <input placeholder={weight} onChange={(e)=> {
                     weight = e.target.value.trim()
+                }}onBlur = {()=> {
+                    displayNameElement()
+                    displayAgeElement()
+                    displayGenderElement()
+                    displayWeightElement()
                 }}/><button onClick={(e)=> {
                     e.preventDefault()
                     if (weight.length > 0 && !isNaN(weight) && weight > 70 && weight < 400) {
@@ -239,7 +271,10 @@ let addWorkout = ()=> {
                         } else {
                             e.target.value = 'Too long   :(     '
                         }
-                    }} onFocus={(e)=> e.target.value =''}/>
+                    }} onFocus={(e)=> {
+                        workout = ''
+                        e.target.value = ''
+                        }}/>
                     <select onChange={(e)=> {
                         bpm = e.target.value
                     }}>
@@ -295,42 +330,34 @@ let removeWorkout = (id)=> {
 //
 // Figure out calorie count for each workout
 // Formula taken from: "http://fitnowtraining.com/2012/01/formula-for-calories-burned/"
+// and here: "http://www.calories-calculator.net/Calculator_Formulars.html"
+//
+// I think this formula is off somehow as it shows females burning more calories than males
+// for the same workout, so i've take the male formula and added a .75 modifier for the females.
 //
 //
 
-// let calorieAdd = ()=> {
-//     calorieElement = 0
-//     workouts.forEach((item)=> {
-//         calorieElement = calorieElement + calorieCount(item)
-//     })
-//     renderApp()
-//     return calorieElement
-// }
+
 
 let calorieCount = (item)=> {
     let count = 0
-    let a = 0
-    let b = 0
-    let c = 0
-    let d = 0
+    let a = .2017
+    let b = .09036
+    let c = .6309
+    let d = 55.0969
+    let e = 0
     let hr = 0
     if(person.gender == 'male') {
-        a = .2017
-        b = .09036
-        c = .6309
-        d = 55.0969
+        e = 1
     } else if (person.gender == 'female') {
-        a = .074
-        b = .05741
-        c = .4472
-        d = 20.4022
+        e = .75
     }
     if (item.bpm == 'medium') {
         hr = Math.floor((220 - person.age) * .6)
     } else if (item.bpm == 'high') {
         hr = Math.floor((220 - person.age) * .775)   
     }
-    count = ((person.age * a)-(person.weight * b) + (hr * c) - d) * item.duration/4.184
+    count = (((person.age * a)-(person.weight * b) + (hr * c) - d) * item.duration/4.184) * e
     item.calories = Math.abs(Math.floor(count))
     return Math.abs(Math.floor(count))
 }
@@ -383,7 +410,7 @@ let renderApp = ()=> {
 
 
 
-        <header>Workout Tracker</header>
+        <div id="header">Workout Tracker</div>
 
         <div id="person-info">
         <div>Hi! {nameElement}, you are a {ageElement} year old {genderElement} that weighs {weightElement} pounds.</div>

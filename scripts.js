@@ -1,0 +1,418 @@
+
+const appRoot = document.getElementById('root')
+
+const Exercise = function (id, workout, duration, bpm) {
+    this.id = id
+    this.workout = workout
+    this.duration = duration
+    this.bpm = bpm
+    this.calories = 0
+}
+
+let person = {
+    name: 'Anonymous',
+    age: 25,
+    gender: 'male',
+    weight: 130,
+}
+
+
+
+let nameElement = null
+let ageElement = null
+let genderElement = null
+let weightElement = null
+let addWorkoutElement = null
+let calorieElement = 0
+let displayListElement = []
+let workouts = []
+
+
+
+
+//
+//
+// Displays the default name or after input
+//
+//
+
+
+
+
+
+
+let displayNameElement = ()=> {
+    nameElement = (
+        <span onClick={()=> {inputNameElement()}}>{person.name}</span>
+    )
+    addList()
+    renderApp()
+} 
+
+
+
+
+let inputNameElement = ()=> {
+    let input = person.name
+    nameElement = (
+        <span>
+            <form>    
+                <input type="input" placeholder={input} onChange={(e)=> {
+                    input = e.target.value.trim()
+                }}/><button onClick={(e)=>{
+                    e.preventDefault()
+                    if (input.length > 0 && input.length < 30) {
+                        person.name = input
+                        displayNameElement()
+                    } else {
+                        person.name = 'Anonymous'
+                        displayNameElement()
+                    }
+                    
+                }}>Change</button>
+            </form>
+        </span>
+    )
+    addList()
+    renderApp()
+}
+
+
+
+
+
+//
+//
+// Displays the age from default or after input
+//
+//
+
+
+
+
+
+
+let displayAgeElement = ()=> {
+    ageElement = (
+        <span onClick={()=> {inputAgeElement()}}>{person.age}</span>
+    )
+    addList()
+    renderApp()  
+}
+
+
+
+
+
+let inputAgeElement = ()=> {
+    let age = person.age
+    ageElement = (
+        <span>
+            <form>
+                <input type="input" placeholder={age} onChange={(e)=> {
+                    age = e.target.value.trim()
+                }}/><button onClick={(e)=> {
+                    e.preventDefault()
+                    if (age.length > 0 && !isNaN(age) && age > 12 && age < 110) {
+                        person.age = age
+                        displayAgeElement()
+                    } else {
+                        person.age = 25
+                        displayAgeElement()
+                    }
+                }}>Change</button>
+            </form>
+        </span>
+    )
+    addList()
+    renderApp()
+}
+
+
+
+//
+//
+// Displays gender from default and after selection
+//
+//
+
+
+
+
+let displayGenderElement = ()=> {
+    genderElement = (
+        <span onClick={()=>{inputGenderElement()}}>{person.gender}</span>
+    )
+    addList()
+    renderApp()
+}
+
+
+let inputGenderElement = ()=> {
+    genderElement = (
+        <span>
+            <select onChange={(e)=> {
+                if (e.target.value == 'male') {
+                    person.gender = 'male'
+                    displayGenderElement()
+                } else if (e.target.value == 'female') {
+                    person.gender = 'female'
+                    displayGenderElement()
+                }
+            }}>
+                <option selected>Select a gender</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+            </select>
+        </span>
+    )
+    addList()
+    renderApp()
+}
+
+
+//
+//
+// Displays weight from default and after input
+//
+//
+
+
+let displayWeightElement = ()=> {
+    weightElement = (
+        <span onClick={()=>{inputWeightElement()}}>{person.weight}</span>  
+    )
+    addList()
+    renderApp()
+}
+
+let inputWeightElement = ()=> {
+    let weight = person.weight
+    weightElement = (
+        <span>
+            <form>
+                <input placeholder={weight} onChange={(e)=> {
+                    weight = e.target.value.trim()
+                }}/><button onClick={(e)=> {
+                    e.preventDefault()
+                    if (weight.length > 0 && !isNaN(weight) && weight > 70 && weight < 400) {
+                        person.weight = weight
+                        displayWeightElement()
+                    } else {
+                        person.weight = 130
+                        displayWeightElement()
+                    }
+                }}>Change</button>
+                </form>
+        </span>
+    )
+    addList()
+    renderApp()
+}
+
+
+
+
+
+//
+//
+// Adds a workout from input
+//
+//
+
+
+
+
+
+let addWorkout = ()=> {
+    let workout = ''
+    let duration = '5'
+    let bpm = 'medium'
+    addWorkoutElement = (
+        <div id="add-bar">
+            <form>
+                <span>
+                    <input type="input" placeholder="Add a workout" onChange={(e)=> {
+                        if (e.target.value.length < 20) {
+                            workout = e.target.value.trim().toLowerCase()
+                            workout = workout.charAt(0).toUpperCase() + workout.slice(1)
+                        } else {
+                            e.target.value = 'Too long   :(     '
+                        }
+                    }} onFocus={(e)=> e.target.value =''}/>
+                    <select onChange={(e)=> {
+                        bpm = e.target.value
+                    }}>
+                        <option value = "medium">Medium Intensity</option>
+                        <option value = "high">High Intensity</option>
+                    </select>
+                    <select onChange={(e)=> {
+                        duration = e.target.value
+                    }}>
+                        <option value = "5">5 minutes</option>
+                        <option value = "10">10 minutes</option>
+                        <option value = "15">15 minutes</option>
+                        <option value = "20">20 minutes</option>
+                        <option value = "25">25 minutes</option>
+                        <option value = "30">30 minutes</option>
+                        <option value = "35">35 minutes</option>
+                        <option value = "40">40 minutes</option>
+                        <option value = "45">45 minutes</option>
+                        <option value = "50">50 minutes</option>
+                        <option value = "55">55 minutes</option>
+                        <option value = "60">60 minutes</option>
+                    </select>
+                    <button onClick={(e)=> {
+                        e.preventDefault()
+                        if(workout.length > 0 && workout.length < 20) {
+                            workouts.push(new Exercise(uuidv4(), workout, duration, bpm)) 
+                            addList()
+                            console.log(workouts)
+                        }
+                    }}>Add</button>
+                </span>
+            </form>
+        </div>
+    )
+}
+
+
+//
+//
+// Remove a workout from array and list
+//
+//
+
+
+let removeWorkout = (id)=> {
+    let index = workouts.findIndex((item)=> item.id == id)
+    workouts.splice(index, 1)
+    addList() 
+}
+
+
+//
+//
+// Figure out calorie count for each workout
+// Formula taken from: "http://fitnowtraining.com/2012/01/formula-for-calories-burned/"
+//
+//
+
+// let calorieAdd = ()=> {
+//     calorieElement = 0
+//     workouts.forEach((item)=> {
+//         calorieElement = calorieElement + calorieCount(item)
+//     })
+//     renderApp()
+//     return calorieElement
+// }
+
+let calorieCount = (item)=> {
+    let count = 0
+    let a = 0
+    let b = 0
+    let c = 0
+    let d = 0
+    let hr = 0
+    if(person.gender == 'male') {
+        a = .2017
+        b = .09036
+        c = .6309
+        d = 55.0969
+    } else if (person.gender == 'female') {
+        a = .074
+        b = .05741
+        c = .4472
+        d = 20.4022
+    }
+    if (item.bpm == 'medium') {
+        hr = Math.floor((220 - person.age) * .6)
+    } else if (item.bpm == 'high') {
+        hr = Math.floor((220 - person.age) * .775)   
+    }
+    count = ((person.age * a)-(person.weight * b) + (hr * c) - d) * item.duration/4.184
+    item.calories = Math.abs(Math.floor(count))
+    return Math.abs(Math.floor(count))
+}
+
+
+
+//
+//
+// Populate DOM with workouts
+//
+//
+
+
+
+let addList = () => {
+    calorieElement = 0
+    displayListElement = workouts.map((item)=> {
+        calorieElement = calorieElement + calorieCount(item)
+        return (
+        <div class="workout">
+            <span class="sentence">{item.workout} for {item.duration} minutes at {item.bpm} intensity.</span>
+            <span class="calories">{calorieCount(item) + " "} 
+                <button onClick={()=>{
+                    removeWorkout(item.id)
+                }}>X</button></span>
+        </div>
+        )}
+        
+    )
+    renderApp()
+}
+
+
+
+//
+//
+// Main React binding
+//
+//
+
+
+
+
+
+let renderApp = ()=> {
+    let app = (
+        <div>
+
+
+
+
+
+        <header>Workout Tracker</header>
+
+        <div id="person-info">
+        <div>Hi! {nameElement}, you are a {ageElement} year old {genderElement} that weighs {weightElement} pounds.</div>
+            <div>You should be aiming for <span class="info">{Math.ceil((220 - person.age)* .5)} - {Math.ceil((220 - person.age) * .85)}</span> BPM during your workouts.</div>
+            <div>You've burned <span class="info">{calorieElement}</span> calories.</div>
+        </div>
+        <div id="workouts">
+            {displayListElement}
+            {addWorkoutElement}
+        </div>
+        
+
+
+
+
+
+        </div>
+    )
+    ReactDOM.render(app, appRoot)
+}
+
+
+addWorkout()
+displayNameElement()
+displayAgeElement()
+displayGenderElement()
+displayWeightElement()
+renderApp()
+
+
+
+

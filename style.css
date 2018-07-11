@@ -1,0 +1,140 @@
+* {
+    font-family: Lato;
+    font-weight: 300;
+    font-size: 20px;
+    color: silver;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #444;
+}
+
+form {
+    display: inline;
+}
+
+input {
+    background-color: #222;
+    color: silver;
+    border: 1px solid silver;
+    width: 150px;
+}
+
+button {
+    margin: auto 3px;
+    background-color: seagreen;
+    border: 1px solid silver;
+    color: white;
+}
+
+
+header {
+    text-align: left;
+    padding: 20px;
+    margin: 0px 0px 20px 0;
+    font-size: 30px;
+    width: 100%;
+    color: silver;
+    background-color: indigo;
+    transition: all .5s ease-in-out;
+}
+
+
+#person-info {
+    text-align: center;
+}
+
+span {
+    color: deepskyblue;
+}
+
+#person-info select {
+    background-color: #222;
+}
+
+.info {
+    color: white;
+}
+
+#workouts {
+    margin: 20px auto;
+}
+
+#workouts input {
+    width: 200px;
+}
+
+.workout {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px auto;
+    padding: 10px;
+    width: 600px;
+    height: auto;
+    background-color: #333;
+}
+
+.sentence  {
+    width: 500px;
+    color: silver;    
+}
+
+.calories {
+    margin: auto 10px;
+    color: crimson;
+}
+
+.workout button {
+    background-color: #222;
+}
+
+
+#add-bar {
+    display: flex;
+    justify-content: center;
+    margin: 20px auto;
+    padding: 10px;
+    text-align: center;
+    width: 600px;
+    height: auto;
+    background-color: #222;
+}
+
+#add-bar input {
+    width: 200px;
+}
+
+#add-bar select {
+    background-color: #444;
+}
+
+@media (max-width: 500px) {
+    * {
+        font-size: 16px;
+    }
+    header {
+        text-align: center;
+        padding: 20px 0px 20px 0px;
+        transition: all .5s ease-in-out;
+    }
+
+    #add-bar {
+        padding: 10px;
+        width: 350px;
+    }
+
+    .workout {
+        padding: 10px;
+        width: 350px;
+    }
+
+   .sentence {
+       width: 250px;
+   } 
+
+    .calories {
+        margin: auto 0;
+    }
+}

@@ -1,5 +1,5 @@
 # Workout Tracker
-This project was created for my portfolio, I wanted a project that went beyond the general todo app and wanted to practice React as well.
+I wanted a project that went beyond the general todo app and wanted to practice React as well.
 It's a workout tracker which you can use to track your daily workouts. 
 It calculates calories burned based on your age, weight, gender as well as the average intensity and duration of the workout added.
 

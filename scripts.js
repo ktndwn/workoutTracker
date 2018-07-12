@@ -13,10 +13,8 @@ let person = {
     name: 'Anonymous',
     age: 25,
     gender: 'male',
-    weight: 130,
+    weight: 140
 }
-
-
 
 let nameElement = null
 let ageElement = null
@@ -27,6 +25,32 @@ let calorieElement = 0
 let displayListElement = []
 let workouts = []
 
+
+//
+//
+// Grab info from local storage if there
+//
+//
+
+
+let grabPersonFromStorage = function () {
+    if (localStorage.getItem('person') == null) {
+        localStorage.setItem('person', JSON.stringify(person))
+    } else {
+        person = JSON.parse(localStorage.getItem('person'))
+    }
+}
+
+let grabWorkoutsFromStorage = function () {
+    if (localStorage.getItem('workouts') == null) {
+        localStorage.setItem('workouts', JSON.stringify(workouts))
+    } else {
+        workouts = JSON.parse(localStorage.getItem('workouts'))
+    }
+}
+
+grabWorkoutsFromStorage()
+grabPersonFromStorage()
 
 
 
@@ -70,9 +94,11 @@ let inputNameElement = ()=> {
                     e.preventDefault()
                     if (input.length > 0 && input.length < 30) {
                         person.name = input
+                        localStorage.setItem('person', JSON.stringify(person))
                         displayNameElement()
                     } else {
                         person.name = 'Anonymous'
+                        localStorage.setItem('person', JSON.stringify(person))
                         displayNameElement()
                     }
                     
@@ -128,10 +154,12 @@ let inputAgeElement = ()=> {
                 }}/><button onClick={(e)=> {
                     e.preventDefault()
                     if (age.length > 0 && !isNaN(age) && age > 12 && age < 110) {
-                        person.age = age
+                        person.age = Math.round(age)
+                        localStorage.setItem('person', JSON.stringify(person))
                         displayAgeElement()
                     } else {
                         person.age = 25
+                        localStorage.setItem('person', JSON.stringify(person))
                         displayAgeElement()
                     }
                 }}>Change</button>
@@ -171,9 +199,11 @@ let inputGenderElement = ()=> {
             <select onChange={(e)=> {
                 if (e.target.value == 'male') {
                     person.gender = 'male'
+                    localStorage.setItem('person', JSON.stringify(person))
                     displayGenderElement()
                 } else if (e.target.value == 'female') {
                     person.gender = 'female'
+                    localStorage.setItem('person', JSON.stringify(person))
                     displayGenderElement()
                 }
             }}onBlur = {()=> {
@@ -224,10 +254,12 @@ let inputWeightElement = ()=> {
                 }}/><button onClick={(e)=> {
                     e.preventDefault()
                     if (weight.length > 0 && !isNaN(weight) && weight > 70 && weight < 400) {
-                        person.weight = weight
+                        person.weight = Math.round(weight)
+                        localStorage.setItem('person', JSON.stringify(person))
                         displayWeightElement()
                     } else {
-                        person.weight = 130
+                        person.weight = 140
+                        localStorage.setItem('person', JSON.stringify(person))
                         displayWeightElement()
                     }
                 }}>Change</button>
@@ -296,7 +328,8 @@ let addWorkout = ()=> {
                     <button onClick={(e)=> {
                         e.preventDefault()
                         if(workout.length > 0 && workout.length < 20) {
-                            workouts.push(new Exercise(uuidv4(), workout, duration, bpm)) 
+                            workouts.push(new Exercise(uuidv4(), workout, duration, bpm))
+                            localStorage.setItem('workouts', JSON.stringify(workouts)) 
                             addList()
                             console.log(workouts)
                         }
@@ -310,14 +343,35 @@ let addWorkout = ()=> {
 
 //
 //
+// Remove all button if list exists
+//
+//
+
+let displayRemoveButton = () => {
+    if (workouts.length > 0) {
+        return (<div id="remove"><button onClick={()=> {
+            workouts = []
+            addList()
+        }}>Remove All</button></div>)
+    } else {
+        return null
+    }
+}
+
+
+
+//
+//
 // Remove a workout from array and list
 //
 //
 
 
+
 let removeWorkout = (id)=> {
     let index = workouts.findIndex((item)=> item.id == id)
     workouts.splice(index, 1)
+    localStorage.setItem('workouts', JSON.stringify(workouts))
     addList() 
 }
 
@@ -383,6 +437,7 @@ let addList = () => {
         )}
         
     )
+    displayRemoveButton()
     renderApp()
 }
 
@@ -414,6 +469,7 @@ let renderApp = ()=> {
             <div>You've burned <span class="info">{calorieElement}</span> calories.</div>
         </div>
         <div id="workouts">
+            {displayRemoveButton()}
             {displayListElement}
             {addWorkoutElement}
         </div>
@@ -434,6 +490,7 @@ displayNameElement()
 displayAgeElement()
 displayGenderElement()
 displayWeightElement()
+displayRemoveButton()
 renderApp()
 
 

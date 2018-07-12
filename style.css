@@ -24,9 +24,9 @@ input {
 
 button {
     margin: auto 3px;
-    background-color: seagreen;
-    border: 1px solid silver;
-    color: white;
+    background-color: indigo;
+    border: 1px solid white;
+    color: silver;
 }
 
 
@@ -44,11 +44,19 @@ button {
 
 #person-info {
     text-align: center;
+    margin: 0 auto;
+    width: auto;
 }
+
+#person-info div {
+    margin: 10px auto;
+}
+
+
 
 .person {
     cursor: pointer;
-    color: deepskyblue;
+    color: darkorange;
 }
 
 
@@ -86,10 +94,20 @@ button {
 
 .calories {
     margin: auto 10px;
-    color: red;
+    color: darkorange;
 }
 
 .workout button {
+    cursor: pointer;
+    background-color: #222;
+}
+
+#remove {
+    text-align: center;
+}
+
+#remove button {
+    cursor: pointer;
     background-color: #222;
 }
 
@@ -113,6 +131,10 @@ button {
     background-color: #444;
 }
 
+#add-bar button {
+    cursor: pointer;
+}
+
 
 
 
@@ -125,9 +147,13 @@ button {
         font-size: 16px;
     }
     #header {
-        text-align: center;
-        padding: 20px 0px 20px 0px;
         transition: all .5s ease-in-out;
+    }
+
+    #person-info {
+        text-align: left;
+        margin: 0 auto;
+        width: 350px;
     }
 
     #add-bar {

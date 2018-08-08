@@ -350,6 +350,7 @@ let addWorkout = ()=> {
 let displayRemoveButton = () => {
     if (workouts.length > 0) {
         return (<div id="remove"><button onClick={()=> {
+            localStorage.clear()
             workouts = []
             addList()
         }}>Remove All</button></div>)
